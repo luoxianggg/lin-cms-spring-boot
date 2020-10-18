@@ -36,10 +36,10 @@ public class CodeGenerator {
         // 数据源配置
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
         dataSourceConfig
-                .setUrl("jdbc:mysql://localhost:3306/lin-cms?allowPublicKeyRetrieval=true&useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai")
+                .setUrl("jdbc:mysql://localhost:3306/lin_cms?useUnicode=true&useSSL=true&characterEncoding=utf8&characterSetResults=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true")
                 .setDriverName("com.mysql.cj.jdbc.Driver")
                 .setUsername("root")
-                .setPassword("123456");
+                .setPassword("root");
         mpg.setDataSource(dataSourceConfig);
 
         // 包名配置
@@ -48,7 +48,7 @@ public class CodeGenerator {
                 .setParent("io.github.talelin.latticy")
                 .setPathInfo(getPathInfo())
                 .setEntity("model")
-                .setController("controller.v1")
+                .setController("controller.fun")
                 .setXml("xml");
         mpg.setPackageInfo(packageConfig);
 
@@ -57,7 +57,8 @@ public class CodeGenerator {
         templateConfig
                 .setEntity("/mpg/templates/entity.java")
                 .setXml("/mpg/templates/mapper.xml")
-                .setController("/mpg/templates/controller.java");
+         //       .setController("/mpg/templates/controller.java")
+        ;
         mpg.setTemplate(templateConfig);
 
         // 策略配置
@@ -65,11 +66,11 @@ public class CodeGenerator {
         strategyConfig
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setSuperEntityClass("io.github.talelin.latticy.model.BaseModel")
-                .setTablePrefix("lin_")
+                .setTablePrefix("fun_")
                 .setEntitySerialVersionUID(false)
                 .setEntityLombokModel(true)
                 .setRestControllerStyle(true)
-                .setSuperEntityColumns("id", "create_time", "update_time", "delete_time")
+                .setSuperEntityColumns("id", "create_time", "update_time", "created_by","last_updated_by")
                 .setInclude(scanner("表名，多个英文逗号分割").split(","))
                 .setControllerMappingHyphenStyle(true);
         mpg.setStrategy(strategyConfig);

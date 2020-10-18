@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.talelin.latticy.mapper.MedicinalMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="io.github.talelin.latticy.model.MedicinalDO">
+        <id column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="created_by" property="createdBy" />
+        <result column="last_updated_by" property="lastUpdatedBy" />
+        <result column="medicinal_name" property="medicinalName" />
+        <result column="pinyinma" property="pinyinma" />
+        <result column="spec" property="spec" />
+        <result column="unit" property="unit" />
+        <result column="description" property="description" />
+    </resultMap>
+    <insert id="insertMedicinal" parameterType="java.util.Map">
+    insert into fun_medicinal(
+    medicinal_name,
+    pinyinma,
+    spec,
+    unit,
+    description
+    ) values(
+    #{medicinal_name,jdbcType=VARCHAR},
+    #{pinyinma,jdbcType=VARCHAR},
+    #{spec,jdbcType=VARCHAR},
+    #{unit,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR}
+    )
+    </insert>
+    <select id="queryMedicinals" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT id,
+        medicinal_name,
+        pinyinma,
+        spec,
+        unit,
+        description,
+        create_time,
+        update_time,
+        created_by,
+        last_updated_by
+        FROM fun_medicinal b
+        WHERE 1=1
+        <if test="pinyinma != null and pinyinma != '' ">
+            b.pinyinma=#{pinyinma,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="queryMedicinalDetailById" parameterType="java.util.Map" resultType="io.github.talelin.latticy.model.MedicinalDO">
+        SELECT id,
+        medicinal_name,
+        pinyinma,
+        spec,
+        unit,
+        description,
+        create_time,
+        update_time,
+        created_by,
+        last_updated_by
+        FROM fun_medicinal b
+        WHERE b.id=#{editMedicinalId,jdbcType=VARCHAR}
+    </select>
+</mapper>

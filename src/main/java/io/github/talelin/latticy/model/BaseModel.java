@@ -25,4 +25,10 @@ public class BaseModel {
     @TableLogic
     @JsonIgnore
     private Date deleteTime;
+
+    @JsonIgnore
+    private Date createdBy;
+
+    @JsonIgnore
+    private Date lastUpdatedBy;
 }
