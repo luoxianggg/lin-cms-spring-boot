@@ -20,4 +20,5 @@ public interface MedicinalMapper extends BaseMapper<MedicinalDO> {
  public void  insertMedicinal(Map<String,Object> map);
  public List< MedicinalDO> queryMedicinals(Map<String,Object> map);
  public MedicinalDO queryMedicinalDetailById(Map<String,Object> map);
+ public void updateMedicinal(Map<String,Object> map);
 }

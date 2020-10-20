@@ -1,9 +1,9 @@
 package io.github.talelin.latticy.service.impl;
 
-import io.github.talelin.latticy.model.MedicinalDO;
-import io.github.talelin.latticy.mapper.MedicinalMapper;
-import io.github.talelin.latticy.service.MedicinalService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.talelin.latticy.mapper.MedicinalMapper;
+import io.github.talelin.latticy.model.MedicinalDO;
+import io.github.talelin.latticy.service.MedicinalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +43,11 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     @Override
     public MedicinalDO getMedicinalDetails(Map<String,Object> map){
         return medicinalMapper.queryMedicinalDetailById(map);
+    }
+
+    @Override
+    public void updateMedicinal(Map<String, Object> map) {
+        map.put("pinyinma",map.get("pinyinma").toString().toUpperCase());
+        medicinalMapper.updateMedicinal(map);
     }
 }

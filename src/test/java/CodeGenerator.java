@@ -24,7 +24,7 @@ public class CodeGenerator {
         // 全局配置
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig
-                .setAuthor("generator@TaleLin")
+                .setAuthor("generator@JesonLuo")
                 .setOpen(false)
                 .setFileOverride(false)
                 .setIdType(IdType.AUTO)

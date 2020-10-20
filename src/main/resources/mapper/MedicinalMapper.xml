@@ -30,6 +30,14 @@
     #{description,jdbcType=VARCHAR}
     )
     </insert>
+    <update id="updateMedicinal" parameterType="java.util.Map">
+       update fun_medicinal t
+         set t.medicinal_name = #{medicinal_name,jdbcType=VARCHAR},
+             t.spec = #{spec,jdbcType=VARCHAR},
+             t.unit = #{unit,jdbcType=VARCHAR},
+             t.description = #{description,jdbcType=VARCHAR},
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="queryMedicinals" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT id,
         medicinal_name,

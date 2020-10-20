@@ -21,4 +21,5 @@ public interface MedicinalService extends IService<MedicinalDO> {
     public void insertMedicinal(Map<String,Object> map);
     public List<MedicinalDO> queryMedicinalList(Map<String,Object> map);
     public MedicinalDO getMedicinalDetails(Map<String,Object> map);
+    public void updateMedicinal(Map<String,Object> map);
 }

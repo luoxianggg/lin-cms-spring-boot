@@ -44,6 +44,12 @@ public class MedicinalController {
         Response response = new Response();
         return  response.success(medicinalService.getMedicinalDetails(paramMap));
     }
+    @RequestMapping("updateMedicinal")
+    public Response updateMedicinalMsg(@RequestBody Map<String,Object> paramMap){
+        Response response = new Response();
+        medicinalService.updateMedicinal(paramMap);
+        return  response.success("信息更新成功！");
+    }
     @GetMapping("/page")
     public PageResponseVO<MedicinalDO> page(
             @RequestParam(name = "count", required = false, defaultValue = "10")
