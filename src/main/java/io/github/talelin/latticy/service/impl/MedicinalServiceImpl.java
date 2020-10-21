@@ -1,9 +1,13 @@
 package io.github.talelin.latticy.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.talelin.latticy.common.mybatis.Page;
+import io.github.talelin.latticy.dto.admin.NewGroupDTO;
+import io.github.talelin.latticy.exception.BaseException;
 import io.github.talelin.latticy.mapper.MedicinalMapper;
 import io.github.talelin.latticy.model.MedicinalDO;
 import io.github.talelin.latticy.service.MedicinalService;
+import io.github.talelin.latticy.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +37,16 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
         medicinalDO.setUnit(map.get("unit").toString());
         medicinalDO.setDescription(map.get("description").toString());
         medicinalMapper.insertMedicinal(map);
-        medicinalMapper.insert(medicinalDO);
+        //medicinalMapper.insert(medicinalDO);
     }
 
     @Override
-    public List<MedicinalDO> queryMedicinalList(Map<String,Object> map){
-      return   medicinalMapper.queryMedicinals(map);
+    public Page<MedicinalDO> queryMedicinalList(Map<String,Object> map){
+
+            Page<MedicinalDO> page = new Page<MedicinalDO>(StringUtil.getStrToInt(map.get("page").toString()),
+                    StringUtil.getStrToInt(map.get("size").toString()));
+            page.setRecords(medicinalMapper.queryMedicinals(page,map)) ;
+        return page;
     }
     @Override
     public MedicinalDO getMedicinalDetails(Map<String,Object> map){
@@ -49,5 +57,10 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     public void updateMedicinal(Map<String, Object> map) {
         map.put("pinyinma",map.get("pinyinma").toString().toUpperCase());
         medicinalMapper.updateMedicinal(map);
+    }
+
+    @Override
+    public void deleteMedicinal(Map<String, Object> map) {
+        medicinalMapper.deleteMedicinal(map);
     }
 }
