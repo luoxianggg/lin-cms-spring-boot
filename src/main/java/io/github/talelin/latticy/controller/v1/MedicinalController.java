@@ -1,43 +1,48 @@
 package io.github.talelin.latticy.controller.v1;
 
 
+import io.github.talelin.core.annotation.GroupMeta;
+import io.github.talelin.latticy.common.mybatis.Page;
 import io.github.talelin.latticy.model.Response;
 import io.github.talelin.latticy.service.MedicinalService;
+import io.github.talelin.latticy.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import io.github.talelin.latticy.model.MedicinalDO;
-import io.github.talelin.latticy.vo.CreatedVO;
-import io.github.talelin.latticy.vo.DeletedVO;
-import io.github.talelin.latticy.vo.PageResponseVO;
-import io.github.talelin.latticy.vo.UpdatedVO;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Positive;
 import java.util.Map;
 
 /**
-* @author generator@TaleLin
+* @author generator@luoxiang
 * @since 2020-10-18
 */
 @RestController
 @RequestMapping("/fun/medicinal")
+@Slf4j
 public class MedicinalController {
 
     @Autowired
     MedicinalService medicinalService;
 
+    @GroupMeta(permission = "添加药品", module = "药品", mount = true)
     @RequestMapping("medicinalAdd")
     public Response medicinalAdd(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         medicinalService.insertMedicinal(paramMap);
         return  response.success("添加成功：" + paramMap.get("medicinal_name"));
     }
+    @GroupMeta(permission = "查询药品", module = "药品", mount = true)
     @RequestMapping("queryMedicinalList")
     public Response queryMedicinalList(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
-        medicinalService.queryMedicinalList(paramMap);
-        return  response.success(medicinalService.queryMedicinalList(paramMap));
+        if(!StringUtil.hasKeyValue(paramMap,"page") || !StringUtil.hasKeyValue(paramMap,"size")){
+            log.error("请求参数不正确");
+            return response.failure("请求参数不正确");
+        }
+        Page<MedicinalDO> page = medicinalService.queryMedicinalList(paramMap);
+        response.setCount((int)page.getTotal());
+        return  response.success(page.getRecords());
     }
     @RequestMapping("queryMedicinalDetailById")
     public Response getMedicinalDetails(@RequestBody Map<String,Object> paramMap){
@@ -50,15 +55,11 @@ public class MedicinalController {
         medicinalService.updateMedicinal(paramMap);
         return  response.success("信息更新成功！");
     }
-    @GetMapping("/page")
-    public PageResponseVO<MedicinalDO> page(
-            @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "{page.count.min}")
-            @Max(value = 30, message = "{page.count.max}") Integer count,
-            @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "{page.number.min}") Integer page
-    ) {
-        return null;
+    @RequestMapping("deleteMedicinal")
+    public Response deleteMedicinals(@RequestBody Map<String,Object> paramMap){
+        Response response = new Response();
+        medicinalService.deleteMedicinal(paramMap);
+        return response;
     }
 
 }
