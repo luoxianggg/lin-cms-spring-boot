@@ -67,6 +67,6 @@
         created_by,
         last_updated_by
         FROM fun_medicinal b
-        WHERE b.id=#{editMedicinalId,jdbcType=VARCHAR}
+        WHERE b.id=#{id,jdbcType=VARCHAR}
     </select>
 </mapper>
