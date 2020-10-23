@@ -70,6 +70,13 @@
         created_by,
         last_updated_by
         FROM fun_medicinal b
-        WHERE b.id=#{id,jdbcType=INTEGER}
+        WHERE b.id=#{fun_medi_id,jdbcType=INTEGER}
+    </select>
+    <select id="getMaxMedicinalNumbers"  resultType="java.lang.String">
+        select concat(date_format(now(),'%Y%m%d') , ifnull(max(instock_numer),'10001'))
+        from fun_medicinal_instock
+    </select>
+    <select id="getMedicinalStocks" parameterType="java.util.Map" resultType="java.lang.Integer">
+       select stock_num from fun_medicinal_stock ms where ms.fun_medi_id = #{fun_medi_id,jdbcType=INTEGER}
     </select>
 </mapper>

@@ -96,11 +96,11 @@ public class CodeGenerator {
     private static Map<String, String> getPathInfo() {
         Map<String, String> pathInfo = new HashMap<>();
         pathInfo.put(ConstVal.ENTITY_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/model");
-        pathInfo.put(ConstVal.MAPPER_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/mapper");
-        pathInfo.put(ConstVal.SERVICE_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/service");
-        pathInfo.put(ConstVal.SERVICE_IMPL_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/service/impl");
-        pathInfo.put(ConstVal.CONTROLLER_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/controller/v1");
-        pathInfo.put(ConstVal.XML_PATH, System.getProperty("user.dir") + "/src/main/resources/mapper");
+        //pathInfo.put(ConstVal.MAPPER_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/mapper");
+        //pathInfo.put(ConstVal.SERVICE_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/service");
+       // pathInfo.put(ConstVal.SERVICE_IMPL_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/service/impl");
+       // pathInfo.put(ConstVal.CONTROLLER_PATH, System.getProperty("user.dir") + "/src/main/java/io/github/talelin/latticy/controller/v1");
+        //pathInfo.put(ConstVal.XML_PATH, System.getProperty("user.dir") + "/src/main/resources/mapper");
         return pathInfo;
     }
 }

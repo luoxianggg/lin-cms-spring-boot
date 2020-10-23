@@ -44,21 +44,44 @@ public class MedicinalController {
         response.setCount((int)page.getTotal());
         return  response.success(page.getRecords());
     }
+    @GroupMeta(permission = "查询药品详情", module = "药品", mount = true)
     @RequestMapping("queryMedicinalDetailById")
     public Response getMedicinalDetails(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
+        if(StringUtil.hasKeyValue(paramMap,"id")){
+            paramMap.put("fun_medi_id",paramMap.get("id"));
+        }else{
+            log.error("请输入正确药品信息");
+            return response.failure("请输入药品信息");
+        }
         return  response.success(medicinalService.getMedicinalDetails(paramMap));
     }
+    @GroupMeta(permission = "更新药品信息", module = "药品", mount = true)
     @RequestMapping("updateMedicinal")
     public Response updateMedicinalMsg(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         medicinalService.updateMedicinal(paramMap);
         return  response.success("信息更新成功！");
     }
+    @GroupMeta(permission = "删除药品", module = "药品", mount = true)
     @RequestMapping("deleteMedicinal")
     public Response deleteMedicinals(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         medicinalService.deleteMedicinal(paramMap);
+        return response;
+    }
+    @GroupMeta(permission = "药品入库", module = "药品", mount = true)
+    @RequestMapping("medicinalInstock")
+    public Response doMedicinalInstock(@RequestBody Map<String,Object> paramMap){
+        Response response = new Response();
+        //参数存在fun_medi_id 和 数据库存在相应的药品信息
+        if(StringUtil.hasKeyValue(paramMap,"fun_medi_id") && (medicinalService.getMedicinalDetails(paramMap) != null) ){
+            medicinalService.doMedicinalInstock(paramMap);
+        }else{
+            log.error("请输入正确药品信息");
+            return response.failure("请输入药品信息");
+        }
+
         return response;
     }
 
