@@ -35,7 +35,7 @@
          set t.medicinal_name = #{medicinal_name,jdbcType=VARCHAR},
              t.spec = #{spec,jdbcType=VARCHAR},
              t.unit = #{unit,jdbcType=VARCHAR},
-             t.description = #{description,jdbcType=VARCHAR},
+             t.description = #{description,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
     <delete id="deleteMedicinal" parameterType="java.util.Map">
@@ -56,6 +56,9 @@
         WHERE 1=1
         <if test="map.pinyinma != null and map.pinyinma != '' ">
           and  b.pinyinma=#{map.pinyinma,jdbcType=VARCHAR}
+        </if>
+        <if test="map.medicinal_name != null and map.medicinal_name != '' ">
+            and  b.medicinal_name=#{map.medicinal_name,jdbcType=VARCHAR}
         </if>
     </select>
     <select id="queryMedicinalDetailById"  resultType="io.github.talelin.latticy.model.MedicinalDO">

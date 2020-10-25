@@ -43,8 +43,8 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     @Override
     public Page<MedicinalDO> queryMedicinalList(Map<String,Object> map){
 
-            Page<MedicinalDO> page = new Page<MedicinalDO>(StringUtil.getStrToInt(map.get("page").toString()),
-                    StringUtil.getStrToInt(map.get("size").toString()));
+            Page<MedicinalDO> page = new Page<MedicinalDO>(StringUtil.getStrToInt(map.get("pageNum").toString()) -1,
+                    StringUtil.getStrToInt(map.get("pageSize").toString()));
             page.setRecords(medicinalMapper.queryMedicinals(page,map)) ;
         return page;
     }

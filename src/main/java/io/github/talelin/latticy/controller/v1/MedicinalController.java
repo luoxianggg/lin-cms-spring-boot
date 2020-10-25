@@ -36,7 +36,7 @@ public class MedicinalController {
     @RequestMapping("queryMedicinalList")
     public Response queryMedicinalList(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
-        if(!StringUtil.hasKeyValue(paramMap,"page") || !StringUtil.hasKeyValue(paramMap,"size")){
+        if(!StringUtil.hasKeyValue(paramMap,"pageNum") || !StringUtil.hasKeyValue(paramMap,"pageSize")){
             log.error("请求参数不正确");
             return response.failure("请求参数不正确");
         }
@@ -59,7 +59,7 @@ public class MedicinalController {
     public Response deleteMedicinals(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         medicinalService.deleteMedicinal(paramMap);
-        return response;
+        return response.success("删除成功！");
     }
 
 }
