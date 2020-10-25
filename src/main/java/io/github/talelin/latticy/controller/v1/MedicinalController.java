@@ -75,14 +75,15 @@ public class MedicinalController {
     public Response doMedicinalInstock(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         //参数存在fun_medi_id 和 数据库存在相应的药品信息
+        String stockNum = "";
         if(StringUtil.hasKeyValue(paramMap,"fun_medi_id") && (medicinalService.getMedicinalDetails(paramMap) != null) ){
-            medicinalService.doMedicinalInstock(paramMap);
+            stockNum =  medicinalService.doMedicinalInstock(paramMap);
         }else{
             log.error("请输入正确药品信息");
             return response.failure("请输入药品信息");
         }
 
-        return response;
+        return response.success("入库单号：" +stockNum);
     }
 
 }

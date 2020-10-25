@@ -69,7 +69,7 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
     }
 
     @Override
-    public void doMedicinalInstock(Map<String, Object> map) {
+    public String doMedicinalInstock(Map<String, Object> map) {
         //初始化入库单信息
         MedicinalInStockDO medicinalInStockDO = new MedicinalInStockDO();
         medicinalInStockDO.setApproveBatchId(map.get("approve_batch_id").toString());
@@ -101,5 +101,6 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
             medicinalStockMapper.initMedicinalStock(map);
         }
 
+        return mediNumber;
     }
 }
