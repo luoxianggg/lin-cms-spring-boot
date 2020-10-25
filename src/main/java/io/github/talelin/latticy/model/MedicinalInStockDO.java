@@ -78,4 +78,9 @@ public class MedicinalInStockDO extends BaseModel {
   * 入库编号
   * */
   private String instockNumber;
+
+    /*
+    * 入库编号流水
+    * */
+    private Long flowNumber;
 }

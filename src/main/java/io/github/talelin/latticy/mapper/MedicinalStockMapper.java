@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.talelin.latticy.model.MedicinalInStockDO;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -16,7 +17,8 @@ import java.util.Map;
  */
 @Repository
 public interface MedicinalStockMapper extends BaseMapper<MedicinalInStockDO> {
-    public Integer getStockMedicinals(Integer fun_medi_id);
+    public BigDecimal getStockMedicinals(Map<String,Object> map);
+    public  String getMaxMedicinalNumbers(Map<String,Object> map);
     public void updateMedicinalStocks(Map<String,Object> map);
     public void initMedicinalStock(Map<String,Object> map);
 

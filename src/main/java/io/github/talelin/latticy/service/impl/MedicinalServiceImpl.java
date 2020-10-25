@@ -77,20 +77,24 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
         medicinalInStockDO.setDescription(map.get("description").toString());
         medicinalInStockDO.setFactory(map.get("factory").toString());
         medicinalInStockDO.setFunMediId(StringUtil.getStrToInt(map.get("fun_medi_id").toString()));
-        medicinalInStockDO.setInvalidDade(LocalDateTime.parse(map.get("invalid_dade").toString(), DateTimeFormatter.ISO_LOCAL_DATE));
-        medicinalInStockDO.setProduceDate(LocalDateTime.parse(map.get("produce_date").toString(), DateTimeFormatter.ISO_LOCAL_DATE));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        medicinalInStockDO.setInvalidDade(LocalDateTime.parse(map.get("invalid_dade").toString(), dateTimeFormatter));
+        medicinalInStockDO.setProduceDate(LocalDateTime.parse(map.get("produce_date").toString(), dateTimeFormatter));
         medicinalInStockDO.setMedicinalStoreId(StringUtil.getStrToInt(map.get("medicinal_store_id").toString()));
         medicinalInStockDO.setPrice(new BigDecimal(map.get("price").toString()));
         medicinalInStockDO.setAmount(StringUtil.getStrToInt(map.get("amount").toString()));
-        medicinalInStockDO.setInstockNumber(medicinalMapper.getMaxMedicinalNumbers());
+        String mediNumber = medicinalStockMapper.getMaxMedicinalNumbers(map);
+        long flowNumber = (long) StringUtil.getStrToInt(mediNumber.substring(8));
+        medicinalInStockDO.setFlowNumber(flowNumber);
+        medicinalInStockDO.setInstockNumber(mediNumber);
         medicinalStockMapper.insert(medicinalInStockDO);
 
         //更新库存信息
         //1. 获取该药品最新库存信息
-        int stockNums = medicinalStockMapper.getStockMedicinals(StringUtil.getStrToInt(map.get("fun_medi_id").toString()));
+        System.out.println(medicinalStockMapper.getStockMedicinals(map));
+        BigDecimal stockNum = medicinalStockMapper.getStockMedicinals(map);
+        if (stockNum != null) {
         //2. 根据新入库信息更新库存数量
-
-        if (stockNums != 0){
             medicinalStockMapper.updateMedicinalStocks(map);
         }else{
             //2.1 如果入库时未找到库存信息则新建库存信息，并初始化库存

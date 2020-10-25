@@ -19,34 +19,28 @@
         <result column="medicinal_store_id" property="unit" />
         <result column="description" property="description" />
     </resultMap>
-   <select id="getStockMedicinals" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-       select stock_num from fun_medicinal_stock ms where ms.fun_medi_id = #{fun_medi_id,jdbcType=INTEGER}
-   </select>
     <update id="updateMedicinalStocks" parameterType="java.util.Map">
-        update fun_medicinal_stock set stock_num = stock_num + #{stock_num,jdbcType=INTEGER}
+        update fun_medicinal_stock set stock_num = stock_num + #{amount,jdbcType=INTEGER}
         where fun_medi_id = #{fun_medi_id,jdbcType=INTEGER}
     </update>
     <insert id="initMedicinalStock" parameterType="java.util.Map">
         insert into fun_medicinal_stock(fun_medi_id,
-                                        batch_id,
-                                        approve_batch_id,
-                                        factory,
                                         stock_num,
-                                        price,
-                                        produce_date,
-                                        invalid_date,
                                         medicinal_store_id,
                                         description)values(
-                                       #{fun_medi_id,jdbcType=INTEGER},
-                                       #{batch_id,jdbcType=INTEGER},
-                                       #{approve_batch_id,jdbcType=INTEGER},
-                                       #{factory,jdbcType=VARCHAR},
-                                       #{stock_num,jdbcType=INTEGER},
-                                       #{price,jdbcType=INTEGER},
-                                       date_format(#{produce_date,jdbcType=VARCHAR},'%Y-%m-%d'),
-                                       date_format(#{invalid_date,jdbcType=INTEGER},'%Y-%m-%d'),
+                                       #{fun_medi_id,jdbcType=VARCHAR},
+                                       #{amount,jdbcType=VARCHAR},
                                        #{medicinal_store_id,jdbcType=INTEGER},
                                        #{description,jdbcType=VARCHAR}
                                       )
     </insert>
+    <select id="getMaxMedicinalNumbers"  resultType="java.lang.String">
+        select concat(date_format(now(),'%Y%m%d') , ifnull(max(flow_number),10000) + 1)
+        from fun_medicinal_instock
+        where  medicinal_store_id = #{medicinal_store_id,jdbcType=VARCHAR}
+    </select>
+    <select id="getStockMedicinals" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        select stock_num "stockNum" from fun_medicinal_stock ms where ms.fun_medi_id = #{fun_medi_id,jdbcType=VARCHAR} and
+        ms.medicinal_store_id = #{medicinal_store_id,jdbcType=VARCHAR}
+    </select>
 </mapper>

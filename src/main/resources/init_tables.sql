@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS fun_medicinal_instock;
 CREATE TABLE fun_medicinal_instock
 (
     id          int unsigned NOT NULL AUTO_INCREMENT,
-    instock_numer   varchar(30)  comment '入库单号',
+    instock_number   varchar(30)  comment '入库单号',
 	fun_medi_id      int not null COMMENT '药品id',
 	batch_id         varchar(200) COMMENT '药品批号',
 	approve_batch_id varchar(200) COMMENT '批准文号',
@@ -63,8 +63,9 @@ CREATE TABLE fun_medicinal_instock
 	in_stock_date    datetime(3) COMMENT '入库时间',
 	produce_date     datetime(3)  COMMENT '药品生产日期',
 	invalid_dade     datetime(3) COMMENT '药品过期日期',
-	operater         int    COMMENT  '入库员',
+  medicinal_store_id         int    COMMENT  '药店id',
 	description      varchar(1000) COMMENT '备注',
+  flow_number     LONG COMMENT '药品编号流水号',
     create_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     update_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     created_by  int          ,
@@ -80,21 +81,16 @@ CREATE TABLE fun_medicinal_instock
 DROP TABLE IF EXISTS fun_medicinal_stock;
 CREATE TABLE fun_medicinal_stock
 (
-    id          int unsigned NOT NULL AUTO_INCREMENT,
-	fun_medi_id      int not null COMMENT '药品id',
-	batch_id         varchar(200)  COMMENT '药品批号',
-	approve_batch_id varchar(200)  COMMENT '批准文号',
-	factory          varchar(200) COMMENT  '生产厂家',
-	stock_num           int(5) COMMENT '库存数量',
-	price            decimal(18,2)  COMMENT '进货单价',
-	produce_date     datetime(3)  COMMENT '药品生产日期',
-	invalid_dade     datetime(3)  COMMENT '药品过期日期',
-	description      varchar(1000)  COMMENT '备注',
-    create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
-    update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-    created_by  int          ,
-	last_updated_by int,
-    PRIMARY KEY (id)
+  id          int unsigned NOT NULL AUTO_INCREMENT,
+  fun_medi_id      int not null COMMENT '药品id',
+  medicinal_store_id         int    COMMENT  '药店id',
+  stock_num           int(5) COMMENT '库存数量',
+  description      varchar(1000)  COMMENT '备注',
+  create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
+  update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  created_by  int          ,
+  last_updated_by int,
+  PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
