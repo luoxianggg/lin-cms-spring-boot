@@ -1,4 +1,4 @@
-package io.github.talelin.latticy.config;
+package io.github.talelin.latticy.common.configuration;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;

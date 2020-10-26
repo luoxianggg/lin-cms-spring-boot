@@ -1,4 +1,4 @@
-package io.github.talelin.latticy.config;
+package io.github.talelin.latticy.common.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;

@@ -1,7 +1,7 @@
-package io.github.talelin.latticy.mapper;
+package io.github.talelin.latticy.mapper.medicinal;
 
 import io.github.talelin.latticy.common.mybatis.Page;
-import io.github.talelin.latticy.model.MedicinalDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package io.github.talelin.latticy.model;
+package io.github.talelin.latticy.model.medicinal;
 
 import io.github.talelin.latticy.model.BaseModel;
 import com.baomidou.mybatisplus.annotation.TableName;

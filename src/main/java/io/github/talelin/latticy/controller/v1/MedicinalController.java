@@ -4,12 +4,14 @@ package io.github.talelin.latticy.controller.v1;
 import io.github.talelin.core.annotation.GroupMeta;
 import io.github.talelin.latticy.common.mybatis.Page;
 import io.github.talelin.latticy.model.Response;
+import io.github.talelin.latticy.model.medicinal.MedicinalInStockDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalStockListDo;
 import io.github.talelin.latticy.service.MedicinalService;
 import io.github.talelin.latticy.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import io.github.talelin.latticy.model.MedicinalDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalDO;
 
 import java.util.Map;
 
@@ -86,4 +88,31 @@ public class MedicinalController {
         return response.success("入库单号：" +stockNum);
     }
 
+    @GroupMeta(permission = "药品库存列表", module = "药品", mount = true)
+    @RequestMapping("medicinalStockList")
+    public Response queryMedicinalStockList(@RequestBody Map<String,Object> paramMap) {
+        Response response = new Response();
+        if(!StringUtil.hasKeyValue(paramMap,"pageNum") || !StringUtil.hasKeyValue(paramMap,"pageSize")
+        || !StringUtil.hasKeyValue(paramMap,"medicinal_store_id")){
+            log.error("请求参数不正确");
+            return response.failure("请求参数不正确");
+        }
+        Page<MedicinalStockListDo> page = medicinalService.queryMedicinalStockList(paramMap);
+        response.setCount((int)page.getTotal());
+        return  response.success(page.getRecords());
+    }
+    @GroupMeta(permission = "药品库存详情", module = "药品", mount = true)
+    @RequestMapping("medicinalStockDetail")
+    public Response queryMedicinalStockDetail(@RequestBody Map<String,Object> paramMap) {
+        Response response = new Response();
+        if(!StringUtil.hasKeyValue(paramMap,"pageNum") || !StringUtil.hasKeyValue(paramMap,"pageSize")
+                || !StringUtil.hasKeyValue(paramMap,"medicinal_store_id")
+                || !StringUtil.hasKeyValue(paramMap,"fun_medi_id")){
+            log.error("请求参数不正确");
+            return response.failure("请求参数不正确");
+        }
+        Page<MedicinalInStockDO> page = medicinalService.quertMedicinalInstockList(paramMap);
+        response.setCount((int)page.getTotal());
+        return  response.success(page.getRecords());
+    }
 }

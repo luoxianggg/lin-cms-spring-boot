@@ -1,9 +1,11 @@
-package io.github.talelin.latticy.model;
+package io.github.talelin.latticy.model.medicinal;
 
 import java.math.BigDecimal;
 import io.github.talelin.latticy.model.BaseModel;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.time.LocalDateTime;
+
+import io.github.talelin.latticy.model.BaseModelNoDelete;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,7 +18,7 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("fun_medicinal_instock")
-public class MedicinalInStockDO extends BaseModel {
+public class MedicinalInStockDO extends BaseModelNoDelete {
 
 
     /**

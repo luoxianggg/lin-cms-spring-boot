@@ -1,13 +1,16 @@
 package io.github.talelin.latticy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.talelin.latticy.common.mybatis.Page;
-import io.github.talelin.latticy.mapper.MedicinalMapper;
-import io.github.talelin.latticy.mapper.MedicinalStockMapper;
-import io.github.talelin.latticy.model.MedicinalDO;
-import io.github.talelin.latticy.model.MedicinalInStockDO;
+import io.github.talelin.latticy.mapper.medicinal.MedicinalMapper;
+import io.github.talelin.latticy.mapper.medicinal.MedicinalStockMapper;
+import io.github.talelin.latticy.model.medicinal.MedicinalDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalInStockDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalStockListDo;
 import io.github.talelin.latticy.service.MedicinalService;
 import io.github.talelin.latticy.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,7 @@ import java.util.Map;
  * @since 2020-10-18
  */
 @Service
+@Slf4j
 public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, MedicinalDO> implements MedicinalService {
 
     @Autowired
@@ -103,4 +107,24 @@ public class MedicinalServiceImpl extends ServiceImpl<MedicinalMapper, Medicinal
 
         return mediNumber;
     }
+    @Override
+    public Page<MedicinalStockListDo> queryMedicinalStockList(Map<String,Object> map){
+        Page<MedicinalStockListDo> page = new Page<MedicinalStockListDo>(StringUtil.getStrToInt(map.get("pageNum").toString()) -1,
+                StringUtil.getStrToInt(map.get("pageSize").toString()));
+        page.setRecords(medicinalStockMapper.getMedicinalStockList(page,map)) ;
+        return page;
+    }
+
+    @Override
+    public Page<MedicinalInStockDO> quertMedicinalInstockList(Map<String,Object> map){
+        QueryWrapper<MedicinalInStockDO> queryWrapper = new QueryWrapper<MedicinalInStockDO>();
+        Page<MedicinalInStockDO> page = new Page<MedicinalInStockDO>(StringUtil.getStrToInt(map.get("pageNum").toString()) -1,
+                StringUtil.getStrToInt(map.get("pageSize").toString()));
+        log.info(map.get("medicinal_store_id").toString()+ "-----" + map.get("fun_medi_id").toString());
+        queryWrapper.eq("medicinal_store_id",map.get("medicinal_store_id").toString());
+        queryWrapper.eq("fun_medi_id",map.get("fun_medi_id").toString());
+        medicinalStockMapper.selectPage(page,queryWrapper);
+        return page;
+    }
+
 }

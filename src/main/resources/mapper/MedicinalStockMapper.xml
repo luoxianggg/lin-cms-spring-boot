@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.github.talelin.latticy.mapper.MedicinalStockMapper">
+<mapper namespace="io.github.talelin.latticy.mapper.medicinal.MedicinalStockMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="io.github.talelin.latticy.model.MedicinalInStockDO">
+    <resultMap id="BaseResultMap" type="io.github.talelin.latticy.model.medicinal.MedicinalInStockDO">
         <id column="id" property="id" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
@@ -43,4 +43,17 @@
         select stock_num "stockNum" from fun_medicinal_stock ms where ms.fun_medi_id = #{fun_medi_id,jdbcType=VARCHAR} and
         ms.medicinal_store_id = #{medicinal_store_id,jdbcType=VARCHAR}
     </select>
+    <select id="getMedicinalStockList" parameterType="java.util.Map" resultType="io.github.talelin.latticy.model.medicinal.MedicinalStockListDo">
+       SELECT
+            fm.medicinal_name "medicinalName",
+            fm.pinyinma "pinyinma",
+            fms.stock_num "stockNum"
+        FROM
+            fun_medicinal fm,
+            fun_medicinal_stock fms
+        WHERE
+            fm.id = fms.fun_medi_id
+           AND fms.medicinal_store_id = #{map.medicinal_store_id,jdbcType=VARCHAR}
+    </select>
+
 </mapper>

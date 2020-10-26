@@ -1,12 +1,11 @@
 package io.github.talelin.latticy.service;
 
 import io.github.talelin.latticy.common.mybatis.Page;
-import io.github.talelin.latticy.mapper.MedicinalMapper;
-import io.github.talelin.latticy.model.MedicinalDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalDO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.github.talelin.latticy.model.medicinal.MedicinalInStockDO;
+import io.github.talelin.latticy.model.medicinal.MedicinalStockListDo;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +24,6 @@ public interface MedicinalService extends IService<MedicinalDO> {
     public void updateMedicinal(Map<String,Object> map);
     public void deleteMedicinal(Map<String,Object> map);
     public String doMedicinalInstock(Map<String, Object> map);
+    public Page<MedicinalStockListDo> queryMedicinalStockList(Map<String,Object> map);
+    public Page<MedicinalInStockDO> quertMedicinalInstockList(Map<String,Object> map);
 }
