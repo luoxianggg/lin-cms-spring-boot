@@ -59,7 +59,7 @@ public class MedicinalInStockDO extends BaseModelNoDelete {
     /**
      * 药品过期日期
      */
-    private LocalDateTime invalidDade;
+    private LocalDateTime invalidDate;
 
     /**
      * 备注

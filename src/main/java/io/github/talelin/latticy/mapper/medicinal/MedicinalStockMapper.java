@@ -26,5 +26,4 @@ public interface MedicinalStockMapper extends BaseMapper<MedicinalInStockDO> {
     public void updateMedicinalStocks(Map<String,Object> map);
     public void initMedicinalStock(Map<String,Object> map);
     public List<MedicinalStockListDo> getMedicinalStockList(Page<?> page, @Param("map")Map<String,Object> map);
-
 }

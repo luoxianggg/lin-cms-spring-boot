@@ -60,9 +60,9 @@ CREATE TABLE fun_medicinal_instock
 	source_from      varchar(200)  COMMENT '进货来源',
 	amount           int  COMMENT '入库数量',
 	price            decimal(18,2) COMMENT '进货单价',
-	in_stock_date    datetime(3) COMMENT '入库时间',
-	produce_date     datetime(3)  COMMENT '药品生产日期',
-	invalid_dade     datetime(3) COMMENT '药品过期日期',
+	in_stock_date    date  COMMENT '入库时间',
+	produce_date     date  COMMENT '药品生产日期',
+	invalid_dade     date COMMENT '药品过期日期',
   medicinal_store_id         int    COMMENT  '药店id',
 	description      varchar(1000) COMMENT '备注',
   flow_number     LONG COMMENT '药品编号流水号',
@@ -103,10 +103,11 @@ CREATE TABLE fun_medicinal_sell
     id          int unsigned NOT NULL AUTO_INCREMENT,
 	fun_medi_id      int not null COMMENT  '药品id',
 	fun_prescribe_id int COMMENT  '问诊单id',
-	customer          varchar(200) COMMENT   '购买方',
-	sell_num           int(5)  COMMENT '销售数量',
+	customer_id          varchar(200) COMMENT   '购买方',
+    medicinal_store_id  int comment '药店id',
+	sell_num           int  COMMENT '销售数量',
 	sell_price       decimal(18,2)  COMMENT '销售单价',
-	sell_dade     datetime(3)  COMMENT '药品销售日期',
+	sell_dade     date  COMMENT '药品销售日期',
 	description      varchar(1000) COMMENT  '备注',
     create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
     update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
@@ -117,7 +118,6 @@ CREATE TABLE fun_medicinal_sell
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-
 -- ----------------------------
 -- 问诊单信息表
 -- ----------------------------
@@ -125,8 +125,11 @@ DROP TABLE IF EXISTS fun_prescribe;
 CREATE TABLE fun_prescribe
 (
     id          int unsigned NOT NULL AUTO_INCREMENT,
-	customer          varchar(200)  COMMENT '顾客',
+    prescribe_number varchar(30) not null comment '问诊单号',
+	customer_id          varchar(30)  COMMENT '顾客',
 	description      varchar(1000)  COMMENT '备注',
+    medicinal_store_id         int    COMMENT  '药店id',
+    amount decimal(18,2) comment '金额',
     create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
     update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     created_by  int          ,
@@ -134,7 +137,8 @@ CREATE TABLE fun_prescribe
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci; 
+  COLLATE = utf8mb4_general_ci;
+
 -- ----------------------------
 -- 顾客信息表
 -- ----------------------------
@@ -146,6 +150,22 @@ CREATE TABLE fnd_customer
 	sex      varchar(5)  COMMENT '性别',
     age      int comment '年龄',
     address  varchar(200) comment '地址',
+    create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
+    update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    created_by  int          ,
+	last_updated_by int,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+  DROP TABLE IF EXISTS fnd_doc_numbers;
+CREATE TABLE fnd_doc_numbers
+(
+    id       int unsigned NOT NULL AUTO_INCREMENT,
+	pre     varchar(200)  COMMENT '单据前缀',
+	dates      varchar(6)  COMMENT '日期',
+    flow_number      int comment '单据流水号',
+    functions     varchar(30) comment'功能代码',
     create_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3),
     update_time datetime(3)     DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     created_by  int          ,

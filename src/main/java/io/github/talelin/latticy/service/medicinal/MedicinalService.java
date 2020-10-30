@@ -1,4 +1,4 @@
-package io.github.talelin.latticy.service;
+package io.github.talelin.latticy.service.medicinal;
 
 import io.github.talelin.latticy.common.mybatis.Page;
 import io.github.talelin.latticy.model.medicinal.MedicinalDO;

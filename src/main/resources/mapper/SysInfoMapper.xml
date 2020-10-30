@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.talelin.latticy.mapper.SysInfoMapper">
+    <select id="getFunDocNumberRules" parameterType="java.lang.String" resultType="io.github.talelin.latticy.model.FndDocNumbersDO">
+       select id "id",
+       pre "Pre",
+       dates "dates",
+       flow_number "flowNumber",
+       function_code "functionCode",
+       create_time "createTime",
+       update_time "updateTime",
+       created_by  "createdBy",
+       last_updated_by "lastUpdatedBy"
+         from fnd_doc_numbers fd
+      where fd.function_code = #{functioCode,jdbcType=VARCHAR}
+    </select>
+    <update id="updateFunDocNumberRules" parameterType="java.util.Map">
+        update fnd_doc_numbers
+          set dates = #{dates,jdbcType=VARCHAR},
+              flow_number = #{flow_number,jdbcType=VARCHAR}
+        where function_code =#{function_code,jdbcType=VARCHAR}
+    </update>
+</mapper>

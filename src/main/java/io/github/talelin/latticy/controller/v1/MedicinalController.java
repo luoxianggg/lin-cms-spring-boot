@@ -6,7 +6,8 @@ import io.github.talelin.latticy.common.mybatis.Page;
 import io.github.talelin.latticy.model.Response;
 import io.github.talelin.latticy.model.medicinal.MedicinalInStockDO;
 import io.github.talelin.latticy.model.medicinal.MedicinalStockListDo;
-import io.github.talelin.latticy.service.MedicinalService;
+import io.github.talelin.latticy.service.medicinal.MedicinalSellService;
+import io.github.talelin.latticy.service.medicinal.MedicinalService;
 import io.github.talelin.latticy.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class MedicinalController {
 
     @Autowired
     MedicinalService medicinalService;
+    @Autowired
+    MedicinalSellService medicinalSellService;
 
     @GroupMeta(permission = "添加药品", module = "药品", mount = true)
     @RequestMapping("medicinalAdd")
@@ -51,7 +54,7 @@ public class MedicinalController {
     public Response getMedicinalDetails(@RequestBody Map<String,Object> paramMap){
         Response response = new Response();
         if(StringUtil.hasKeyValue(paramMap,"id")){
-            paramMap.put("fun_medi_id",paramMap.get("id"));
+            paramMap.put("funMediId",paramMap.get("id"));
         }else{
             log.error("请输入正确药品信息");
             return response.failure("请输入药品信息");
@@ -78,7 +81,7 @@ public class MedicinalController {
         Response response = new Response();
         //参数存在fun_medi_id 和 数据库存在相应的药品信息
         String stockNum = "";
-        if(StringUtil.hasKeyValue(paramMap,"fun_medi_id") && (medicinalService.getMedicinalDetails(paramMap) != null) ){
+        if(StringUtil.hasKeyValue(paramMap,"funMediId") && (medicinalService.getMedicinalDetails(paramMap) != null) ){
             stockNum =  medicinalService.doMedicinalInstock(paramMap);
         }else{
             log.error("请输入正确药品信息");
@@ -114,5 +117,18 @@ public class MedicinalController {
         Page<MedicinalInStockDO> page = medicinalService.quertMedicinalInstockList(paramMap);
         response.setCount((int)page.getTotal());
         return  response.success(page.getRecords());
+    }
+    @GroupMeta(permission = "问诊单新增", module = "药品", mount = true)
+    @RequestMapping("prescribeCreated")
+    public Response createPrescribe(@RequestBody Map<String,Object> paramMap)throws Exception {
+        Response response = new Response();
+        String docNum = "";
+        try {
+            docNum = medicinalSellService.prescribeCreate(paramMap);
+        }catch (Exception e){
+          return   response.failure(e.getMessage());
+        }
+        return response.success("创建成功，问诊单号：" + docNum);
+
     }
 }

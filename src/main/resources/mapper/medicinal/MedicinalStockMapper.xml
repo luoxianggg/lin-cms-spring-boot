@@ -20,17 +20,17 @@
         <result column="description" property="description" />
     </resultMap>
     <update id="updateMedicinalStocks" parameterType="java.util.Map">
-        update fun_medicinal_stock set stock_num = stock_num + #{amount,jdbcType=INTEGER}
-        where fun_medi_id = #{fun_medi_id,jdbcType=INTEGER}
+        update fun_medicinal_stock set stock_num = #{newStock,jdbcType=INTEGER}
+        where fun_medi_id = #{funMediId,jdbcType=INTEGER}
     </update>
     <insert id="initMedicinalStock" parameterType="java.util.Map">
         insert into fun_medicinal_stock(fun_medi_id,
                                         stock_num,
                                         medicinal_store_id,
                                         description)values(
-                                       #{fun_medi_id,jdbcType=VARCHAR},
+                                       #{funMediId,jdbcType=VARCHAR},
                                        #{amount,jdbcType=VARCHAR},
-                                       #{medicinal_store_id,jdbcType=INTEGER},
+                                       #{medicinalStoreId,jdbcType=INTEGER},
                                        #{description,jdbcType=VARCHAR}
                                       )
     </insert>
@@ -40,8 +40,8 @@
         where  medicinal_store_id = #{medicinal_store_id,jdbcType=VARCHAR}
     </select>
     <select id="getStockMedicinals" parameterType="java.util.Map" resultType="java.math.BigDecimal">
-        select stock_num "stockNum" from fun_medicinal_stock ms where ms.fun_medi_id = #{fun_medi_id,jdbcType=VARCHAR} and
-        ms.medicinal_store_id = #{medicinal_store_id,jdbcType=VARCHAR}
+        select stock_num "stockNum" from fun_medicinal_stock ms where ms.fun_medi_id = #{funMediId,jdbcType=VARCHAR} and
+        ms.medicinal_store_id = #{medicinalStoreId,jdbcType=VARCHAR}
     </select>
     <select id="getMedicinalStockList" parameterType="java.util.Map" resultType="io.github.talelin.latticy.model.medicinal.MedicinalStockListDo">
        SELECT
@@ -53,7 +53,6 @@
             fun_medicinal_stock fms
         WHERE
             fm.id = fms.fun_medi_id
-           AND fms.medicinal_store_id = #{map.medicinal_store_id,jdbcType=VARCHAR}
+           AND fms.medicinal_store_id = #{map.medicinalStoreId,jdbcType=VARCHAR}
     </select>
-
 </mapper>

@@ -26,12 +26,10 @@ public class CommonConfiguration {
         return new RequestLogInterceptor();
     }
 
-/*
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
-*/
 
     @Bean
     public ISqlInjector sqlInjector() {

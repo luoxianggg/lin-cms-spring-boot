@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.talelin.latticy.mapper.medicinal.MedicinalMapper">
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="io.github.talelin.latticy.model.medicinal.MedicinalDO">
         <id column="id" property="id" />
@@ -23,7 +22,7 @@
     unit,
     description
     ) values(
-    #{medicinal_name,jdbcType=VARCHAR},
+    #{medicinalName,jdbcType=VARCHAR},
     #{pinyinma,jdbcType=VARCHAR},
     #{spec,jdbcType=VARCHAR},
     #{unit,jdbcType=VARCHAR},
@@ -32,7 +31,7 @@
     </insert>
     <update id="updateMedicinal" parameterType="java.util.Map">
        update fun_medicinal t
-         set t.medicinal_name = #{medicinal_name,jdbcType=VARCHAR},
+         set t.medicinal_name = #{medicinalName,jdbcType=VARCHAR},
              t.spec = #{spec,jdbcType=VARCHAR},
              t.unit = #{unit,jdbcType=VARCHAR},
              t.description = #{description,jdbcType=VARCHAR}
@@ -58,7 +57,7 @@
           and  b.pinyinma=#{map.pinyinma,jdbcType=VARCHAR}
         </if>
         <if test="map.medicinal_name != null and map.medicinal_name != '' ">
-            and  b.medicinal_name=#{map.medicinal_name,jdbcType=VARCHAR}
+            and  b.medicinal_name=#{map.medicinalName,jdbcType=VARCHAR}
         </if>
     </select>
     <select id="queryMedicinalDetailById"  resultType="io.github.talelin.latticy.model.medicinal.MedicinalDO">
@@ -73,6 +72,6 @@
         created_by,
         last_updated_by
         FROM fun_medicinal b
-        WHERE b.id=#{fun_medi_id,jdbcType=INTEGER}
+        WHERE b.id=#{funMediId,jdbcType=INTEGER}
     </select>
 </mapper>
